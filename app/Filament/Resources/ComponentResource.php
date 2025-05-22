@@ -32,6 +32,8 @@ class ComponentResource extends Resource
                     ->rule('regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/i') // basic slug regex
                     ->unique(ignoreRecord: true)
                     ->helperText('Only lowercase letters, numbers, and hyphens are allowed. No spaces or special characters.'),
+                Textarea::make('notes')
+                    ->helperText('Notes for this component. For informational purposes only.'),
                 FormsBuilder::make('data')
                     ->blocks([
                         FormsBuilder\Block::make('heading')
@@ -78,6 +80,8 @@ class ComponentResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('notes')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -102,6 +106,8 @@ class ComponentResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\ForceDeleteBulkAction::make(),
+                    Tables\Actions\RestoreBulkAction::make(),
                 ]),
             ]);
     }
