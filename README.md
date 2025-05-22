@@ -325,7 +325,7 @@ To create a custom template for a specific page with the slug "about":
 
 ```php
 // Create a file at resources/views/templates/page-about.blade.php
-<x-layouts.app>
+<x-layouts.app :title="$content->title ?? 'Default Page'" :body-classes="$bodyClasses">
     <x-partials.header />
     <main>
         <article class="page about-page">
