@@ -95,11 +95,12 @@ trait CommentTrait
             Tables\Columns\TextColumn::make('commentable.id')
                 ->sortable()
                 ->searchable()
-                ->url(fn($record): string =>
-                    (self::getCommentableResources()[$record->commentable_type])::getUrl(
-                        'edit',
-                        ['record' => $record->commentable]
-                    )),
+                ->url(function($record): ?string {
+                    $resources = self::getCommentableResources();
+                    $resourceClass = $resources[$record->commentable_type] ?? null;
+                    if (!$resourceClass) return null;
+                    return $resourceClass::getUrl('edit', ['record' => $record->commentable]);
+    }),
         ];
     }
 
