@@ -1,8 +1,8 @@
-<x-layouts.app :title="$title ?? 'Default Page'" :body-classes="$bodyClasses">
+<x-layouts.app :title="$content->title ?? 'Default Page'" :body-classes="$bodyClasses">
     <x-partials.header />
     <main>
         test
-        <h1>{{ $title ?? 'Default Page' }}</h1>
+        <h1>{{ $content->title ?? 'Default Page' }}</h1>
 
         {{-- Content goes here --}}
 
