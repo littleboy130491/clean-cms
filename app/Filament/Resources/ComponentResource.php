@@ -28,7 +28,10 @@ class ComponentResource extends Resource
         return $form
             ->schema([
                 TextInput::make('name')
-                    ->required(),
+                    ->required()
+                    ->rule('regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/i') // basic slug regex
+                    ->unique(ignoreRecord: true)
+                    ->helperText('Only lowercase letters, numbers, and hyphens are allowed. No spaces or special characters.'),
                 FormsBuilder::make('data')
                     ->blocks([
                         FormsBuilder\Block::make('heading')

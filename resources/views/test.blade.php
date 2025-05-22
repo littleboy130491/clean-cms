@@ -1,1 +1,1 @@
-<x-component-loader name="aryo" />
+<x-component-loader name="sliderPakai" />
