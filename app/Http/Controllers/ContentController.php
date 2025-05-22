@@ -173,7 +173,8 @@ class ContentController extends Controller
      */
     private function tryFallbackContentModel(string $lang, string $slug, Request $request): ?Model
     {
-        $modelClass = Config::get("cms.content_models.posts.model");
+        $fallbackContentModel = Config::get('cms.fallback_content_model', 'posts');
+        $modelClass = Config::get("cms.content_models.{$fallbackContentModel}.model");
 
         $content = $this->getPublishedContentBySlug($modelClass, $lang, $slug, true);
 
@@ -629,7 +630,7 @@ class ContentController extends Controller
         ];
 
         if ($content instanceof Model) {
-             $bodyClasses[] = 'template-' . Str::slug(class_basename($content ?? 'default'));
+            $bodyClasses[] = 'template-' . Str::slug(class_basename($content ?? 'default'));
             if (!empty($content->slug)) {
                 $bodyClasses[] = 'page-' . ($content->slug[$lang] ?? $content->slug); // handle translation
             }
@@ -638,7 +639,7 @@ class ContentController extends Controller
                 $bodyClasses[] = 'template-' . Str::slug($content->template);
             }
         } elseif (is_object($content) && isset($content->post_type)) {
-             $bodyClasses[] = 'template-archive-' . $content->post_type;
+            $bodyClasses[] = 'template-archive-' . $content->post_type;
         }
 
         if ($contentTypeKey) {
