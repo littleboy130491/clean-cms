@@ -1,1 +1,1 @@
-<x-component-loader name="test" />
+<x-component-loader name="aryo" />
