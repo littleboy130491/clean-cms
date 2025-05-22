@@ -173,8 +173,8 @@ class ContentController extends Controller
      */
     private function tryFallbackContentModel(string $lang, string $slug, Request $request): ?Model
     {
-        $fallbackContentModel = Config::get('cms.fallback_content_model', 'posts');
-        $modelClass = Config::get("cms.content_models.{$fallbackContentModel}.model");
+        $fallbackContentType = Config::get('cms.fallback_content_model', 'posts');
+        $modelClass = Config::get("cms.content_models.{$fallbackContentType}.model");
 
         $content = $this->getPublishedContentBySlug($modelClass, $lang, $slug, true);
 

@@ -63,7 +63,7 @@ return [
         ],
     ],
 
-    'fallback_content_model' => 'posts',
+    'fallback_content_type' => 'posts',
 
     'static_page_model' => App\Models\Page::class,
     'static_page_slug' => 'pages',
