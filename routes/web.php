@@ -16,6 +16,9 @@ Route::middleware([
         ->name('preview.email');
     Route::get('/email/{slug}', [PreviewEmailController::class, 'emailTemplate'])
         ->name('preview.email');
+    Route::get('/component', function () {
+        return view('test');
+    });
 });
 Route::get('/', function () {
     $defaultLang = Config::get('cms.default_language', 'en');

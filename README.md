@@ -348,3 +348,26 @@ To create a custom template for a specific page with the slug "about":
 ```
 
 This template will be automatically used for the page with the slug "about", while other pages will use more general templates in the hierarchy.
+
+## 8. Dynamic Component Loading
+
+The project includes a `ComponentLoader` Blade component (`app/View/Components/ComponentLoader.php`) that allows for dynamic loading and rendering of components based on data stored in the database.
+
+This component fetches component data from the `components` table using a provided name and passes this data to a corresponding Blade view for rendering.
+
+**Usage:**
+
+To use the `ComponentLoader`, simply include it in your Blade file with the `name` attribute set to the slug of the component you want to load:
+
+```blade
+<x-component-loader name="your-component-slug" />
+```
+
+**Implementation:**
+
+1.  **Create the Blade View:** Create a new Blade file for your dynamic component in the `resources/views/components/dynamic` directory. The filename of this Blade file **must** match the component's slug used in the `x-component-loader` tag and the name/slug used in the CMS (e.g., `resources/views/components/dynamic/your-component-slug.blade.php`). This Blade file will receive the component data fetched by the `ComponentLoader`.
+2.  **Manage Data in CMS:** The data for the dynamic components is managed through the `ComponentResource` in the CMS. You can create and edit component entries there. The `name` field in the CMS entry **must** match the slug used in the `x-component-loader` tag and the Blade file name. The data provided in the CMS entry will be passed to your dynamic Blade views.
+3.  **Example (using 'slider'):**
+    *   In your Blade file, where the component will be rendered, use: `<x-component-loader name="slider" />`
+    *   Create the component Blade view file: `resources/views/components/dynamic/slider.blade.php`
+    *   In the CMS, create a Component entry with the `name` field set to `slider`.
