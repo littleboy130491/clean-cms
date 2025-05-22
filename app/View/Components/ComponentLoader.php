@@ -17,7 +17,7 @@ use App\Models\Component as ComponentModel;
  * This will:
  * - Query the 'components' table for a record with name 'slide'
  * - Retrieve the associated data
- * - Pass the data to a dynamic component for rendering (e.g., <x-slide :componentData="$componentData" />)
+ * - Pass the data to a dynamic component for rendering (e.g., <x-dynamic.slide :componentData="$componentData" />)
  *
  * @package App\View\Components
  */

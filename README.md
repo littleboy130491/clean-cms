@@ -365,8 +365,8 @@ To use the `ComponentLoader`, simply include it in your Blade file with the `nam
 
 **Implementation:**
 
-1.  **Create the Blade View:** Create a new Blade file for your dynamic component in the `resources/views/components/dynamic` directory. The filename of this Blade file **must** match the component's slug used in the `x-component-loader` tag and the name/slug used in the CMS (e.g., `resources/views/components/dynamic/your-component-slug.blade.php`). This Blade file will receive the component data fetched by the `ComponentLoader`.
-2.  **Manage Data in CMS:** The data for the dynamic components is managed through the `ComponentResource` in the CMS. You can create and edit component entries there. The `name` field in the CMS entry **must** match the slug used in the `x-component-loader` tag and the Blade file name. The data provided in the CMS entry will be passed to your dynamic Blade views.
+1.  **Create the Blade View:** Create a new Blade file for your dynamic component in the `resources/views/components/dynamic` directory. This Blade file will receive the component data fetched by the `ComponentLoader`.
+2.  **Manage Data in CMS:** The data for the dynamic components is managed through the `ComponentResource` in the CMS. You can create and edit component entries there. The `name` field in the CMS entry **must** match the name used in the `x-component-loader` tag and the Blade file name (from number 1). The data provided in the CMS entry will be passed to your dynamic Blade views.
 3.  **Example (using 'slider'):**
     *   In your Blade file, where the component will be rendered, use: `<x-component-loader name="slider" />`
     *   Create the component Blade view file: `resources/views/components/dynamic/slider.blade.php`
