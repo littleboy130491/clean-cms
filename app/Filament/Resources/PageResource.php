@@ -5,6 +5,11 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\PageResource\Pages;
 use App\Models\Page;
 use App\Filament\Abstracts\BaseContentResource;
+use Filament\Forms\Components\Builder;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 
 class PageResource extends BaseContentResource
 {

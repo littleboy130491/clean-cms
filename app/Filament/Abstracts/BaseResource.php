@@ -38,6 +38,7 @@ abstract class BaseResource extends Resource
         return $form
             ->schema([
                 ...static::formSchema(),
+                ...static::formSeoSection(),
             ])
             ->columns(1); // Main form now has 1 column as Translate takes full width
     }
@@ -85,7 +86,6 @@ abstract class BaseResource extends Resource
                             '2xl' => 1,
                         ]),
                 ]),
-            ...static::formSeoSection(),
 
         ];
 
