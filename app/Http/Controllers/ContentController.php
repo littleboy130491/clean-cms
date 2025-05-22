@@ -182,7 +182,7 @@ class ContentController extends Controller
             // Redirect to post route if found
             redirect()->route('cms.single.content', array_merge([
                 'lang' => $lang,
-                'content_type_key' => 'posts',
+                'content_type_key' => $fallbackContentType,
                 'content_slug' => $slug,
             ], $request->query()))->send(); // Send response immediately
             exit;
