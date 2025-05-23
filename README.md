@@ -366,8 +366,23 @@ To use the `ComponentLoader`, simply include it in your Blade file with the `nam
 **Implementation:**
 
 1.  **Create the Blade View:** Create a new Blade file for your dynamic component in the `resources/views/components/dynamic` directory. This Blade file will receive the component data fetched by the `ComponentLoader`.
-2.  **Manage Data in CMS:** The data for the dynamic components is managed through the `ComponentResource` in the CMS. You can create and edit component entries there. The `name` field in the CMS entry **must** match the name used in the `x-component-loader` tag and the Blade file name (from number 1). The data provided in the CMS entry will be passed to your dynamic Blade views.
-3.  **Example (using 'slider'):**
-    *   In your Blade file, where the component will be rendered, use: `<x-component-loader name="slider" />`
+2.  **Manage Data in CMS:** The data for the dynamic components is managed through the `ComponentResource` in the CMS. You can create and edit component entries there. The `name` field in the CMS entry **must** match the name used in the `x-component-loader` tag and the Blade file name. The data provided in the CMS entry will be passed to your dynamic Blade views.
+3.  **Display Data in the Blade View:** In the Blade view, you can access the data using `$componentData->blocks`. See [`app/Models/Component.php`](app/Models/Component.php) for the `getBlocksAttribute` method implementation.
+4.  **Example (using 'slider'):**
+    *   In your Blade file where the component will be rendered, use: `<x-component-loader name="slider" />`
     *   Create the component Blade view file: `resources/views/components/dynamic/slider.blade.php`
+    ```php
+    {{-- resources/views/components/dynamic/slider.blade.php:1 --}}
+    @foreach ($componentData->blocks as $block)
+        @if ($block['type'] === 'slider')
+            <div class="slider-item">
+                <h2>{{ $block['data']['heading'] }}</h2>
+                <p>{{ $block['data']['description'] }}</p>
+                <a class="btn">{{ $block['data']['call-to-action'] }}</a>
+                <img src="{{ $block['data']['image_url'] }}" alt="">
+            </div>
+        @endif
+    @endforeach
+    ```
     *   In the CMS, create a Component entry with the `name` field set to `slider`.
+

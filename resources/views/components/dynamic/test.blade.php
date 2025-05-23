@@ -1,1 +1,1 @@
-@dd($componentData)
+@dd($componentData->blocks)

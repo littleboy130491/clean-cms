@@ -16,6 +16,7 @@ use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Awcodes\Curator\Components\Forms\CuratorPicker;
 
 class ComponentResource extends Resource
 {
@@ -35,40 +36,19 @@ class ComponentResource extends Resource
                 Textarea::make('notes')
                     ->helperText('Notes for this component. For informational purposes only.'),
                 FormsBuilder::make('data')
+                    ->collapsed(false)
                     ->blocks([
-                        FormsBuilder\Block::make('heading')
+                        FormsBuilder\Block::make('slider')
                             ->schema([
-                                TextInput::make('content')
-                                    ->label('Heading')
-                                    ->required(),
-                                Select::make('level')
-                                    ->options([
-                                        'h1' => 'Heading 1',
-                                        'h2' => 'Heading 2',
-                                        'h3' => 'Heading 3',
-                                        'h4' => 'Heading 4',
-                                        'h5' => 'Heading 5',
-                                        'h6' => 'Heading 6',
-                                    ])
-                                    ->required(),
+                                TextInput::make('heading'),
+                                TextInput::make('description'),
+                                TextInput::make('call-to-action')
+                                    ->label('Call to action'),
+                                CuratorPicker::make('image_id')
+                                    ->label('Image')
+                                    ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/svg+xml']),
                             ])
                             ->columns(2),
-                        FormsBuilder\Block::make('paragraph')
-                            ->schema([
-                                Textarea::make('content')
-                                    ->label('Paragraph')
-                                    ->required(),
-                            ]),
-                        FormsBuilder\Block::make('image')
-                            ->schema([
-                                FileUpload::make('url')
-                                    ->label('Image')
-                                    ->image()
-                                    ->required(),
-                                TextInput::make('alt')
-                                    ->label('Alt text')
-                                    ->required(),
-                            ]),
                     ])
             ])
             ->columns(1);

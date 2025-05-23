@@ -2,13 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Enums\CommentStatus;
-use Illuminate\Database\Eloquent\Relations\MorphTo;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Awcodes\Curator\Models\Media;
 class Component extends Model
 {
     use SoftDeletes;
@@ -35,5 +31,24 @@ class Component extends Model
     protected $casts = [
         'data' => 'array',
     ];
+
+    protected $appends = ['blocks'];
+
+    /**
+     * Return the raw data blocks, but with image URLs injected.
+     *
+     * @return array
+     */
+    public function getBlocksAttribute(): array
+    {
+        return collect($this->data)->map(function (array $block) {
+            // if this block has an "image" key, fetch its URL
+            if (isset($block['data']['image_id'])) {
+                $media = Media::find($block['data']['image']);
+                $block['data']['image_url'] = $media?->url;
+            }
+            return $block;
+        })->all();
+    }
 
 }

@@ -1,1 +1,1 @@
-<x-component-loader name="sliderPakai" />
+<x-component-loader name="test" />
