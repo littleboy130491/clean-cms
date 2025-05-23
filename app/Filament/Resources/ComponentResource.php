@@ -45,8 +45,10 @@ class ComponentResource extends Resource
                                 TextInput::make('group'),
                                 RichEditor::make('description')
                                     ->columnSpan('full'),
-                                TextInput::make('call-to-action')
-                                    ->label('Call to action'),
+                                TextInput::make('cta-label')
+                                    ->label('CTA label'),
+                                TextInput::make('cta-url')
+                                    ->label('CTA URL'),
                                 CuratorPicker::make('image_id')
                                     ->label('Image')
                                     ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/svg+xml']),
