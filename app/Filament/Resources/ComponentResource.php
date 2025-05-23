@@ -17,6 +17,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Awcodes\Curator\Components\Forms\CuratorPicker;
+use Filament\Forms\Components\RichEditor;
 
 class ComponentResource extends Resource
 {
@@ -38,10 +39,12 @@ class ComponentResource extends Resource
                 FormsBuilder::make('data')
                     ->collapsed(false)
                     ->blocks([
-                        FormsBuilder\Block::make('slider')
+                        FormsBuilder\Block::make('complete')
                             ->schema([
                                 TextInput::make('heading'),
-                                TextInput::make('description'),
+                                TextInput::make('group'),
+                                RichEditor::make('description')
+                                    ->columnSpan('full'),
                                 TextInput::make('call-to-action')
                                     ->label('Call to action'),
                                 CuratorPicker::make('image_id')
@@ -49,6 +52,12 @@ class ComponentResource extends Resource
                                     ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/svg+xml']),
                             ])
                             ->columns(2),
+                        FormsBuilder\Block::make('simple')
+                            ->schema([
+                                TextInput::make('heading'),
+                                RichEditor::make('description'),
+                            ])
+                            ->columns(1),
                     ])
             ])
             ->columns(1);

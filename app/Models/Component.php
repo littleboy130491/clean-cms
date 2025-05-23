@@ -44,9 +44,10 @@ class Component extends Model
         return collect($this->data)->map(function (array $block) {
             // if this block has an "image" key, fetch its URL
             if (isset($block['data']['image_id'])) {
-                $media = Media::find($block['data']['image']);
+                $media = Media::find($block['data']['image_id']);
                 $block['data']['image_url'] = $media?->url;
             }
+
             return $block;
         })->all();
     }
