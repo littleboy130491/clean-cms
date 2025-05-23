@@ -114,9 +114,6 @@
         {{-- CAPTCHA Field - Only show if enabled --}}
         @if (!empty(config('captcha.sitekey')) && !empty(config('captcha.secret')))
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">
-                    {{ __('submission-form.captcha') }} <span class="text-red-500">*</span>
-                </label>
                 <div class="@if ($formSubmitted) opacity-50 pointer-events-none @endif">
                     <!-- Simple reCAPTCHA implementation -->
                     <div class="g-recaptcha" data-sitekey="{{ config('captcha.sitekey') }}"

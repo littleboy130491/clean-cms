@@ -18,6 +18,7 @@ use App\Models\Component as ComponentModel;
  * - Query the 'components' table for a record with name 'slide'
  * - Retrieve the associated data
  * - Pass the data to a dynamic component for rendering (e.g., <x-dynamic.slide :componentData="$componentData" />)
+ * - In the blade view, you can access the data using $componentData->blocks, see App\Models\Component getBlocksAttribute method.
  *
  * @package App\View\Components
  */
