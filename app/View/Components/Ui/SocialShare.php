@@ -1,6 +1,6 @@
 <?php
 
-namespace App\View\Components;
+namespace App\View\Components\Ui;
 
 use Illuminate\View\Component;
 
@@ -65,7 +65,7 @@ class SocialShare extends Component
                 'share_url' => "https://wa.me/?text={$title}%20{$url}",
                 'profile_url' => null
             ],
-           
+
         ];
     }
 }

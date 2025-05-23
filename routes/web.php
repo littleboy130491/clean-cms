@@ -19,6 +19,9 @@ Route::middleware([
     Route::get('/component', function () {
         return view('test');
     });
+    Route::get('/submission-form', function () {
+        return view('submission-form-test');
+    });
 });
 Route::get('/', function () {
     $defaultLang = Config::get('cms.default_language', 'en');
