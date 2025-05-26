@@ -17,6 +17,13 @@ abstract class BaseTaxonomyResource extends BaseResource
         ];
     }
 
+    protected static function formCustomFields(): array
+    {
+        return [
+
+        ]; // Custom fields are not applicable for taxonomy resources
+    }
+
     protected static function formTemplateField(): array
     {
         $subPath = 'archives';
