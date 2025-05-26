@@ -1,3 +1,6 @@
+@php
+    use Illuminate\Support\Str;
+@endphp
 <x-layouts.app :title="$content->title ?? 'Post'" :body-classes="$bodyClasses">
     <x-partials.header />
     <main>
@@ -17,8 +20,11 @@
                             by {{ $content->author->name }}
                         </span>
                     @endif
-                    @dd($content->custom_fields)
                     <x-ui.page-views :count="$content->custom_fields['page_views']" format="long" class="post-views" />
+
+                    <span class="post-likes">
+                        {{ $content->page_likes }} {{ Str::plural('like', $content->page_likes) }}
+                    </span>
                 </div>
             </header>
 
@@ -37,6 +43,11 @@
 
             <div class="post-content">
                 {!! $content->content !!}
+            </div>
+
+            {{-- Like button section --}}
+            <div class="post-actions">
+                <livewire:like-button :content="$content" :lang="$lang" :content-type="$content_type" />
             </div>
 
             @if ($content->categories->count() > 0)

@@ -17,10 +17,11 @@ use App\Enums\ContentStatus;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use App\Models\Comment;
 use App\Traits\HasPageViews;
+use App\Traits\HasPageLikes;
 
 class Post extends Model
 {
-    use HasFactory, HasTranslations, SoftDeletes, InteractsWithSeoSuite, HasPageViews;
+    use HasFactory, HasTranslations, SoftDeletes, InteractsWithSeoSuite, HasPageViews, HasPageLikes;
 
 
     /**
