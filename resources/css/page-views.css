@@ -1,0 +1,83 @@
+/* Page Views Component Styles */
+.page-views {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.875rem;
+    color: #6b7280;
+    font-weight: 500;
+}
+
+.page-views-icon {
+    width: 1rem;
+    height: 1rem;
+    opacity: 0.7;
+}
+
+.page-views-count {
+    line-height: 1;
+}
+
+/* Post template specific styles */
+.post-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #e5e7eb;
+    font-size: 0.875rem;
+    color: #6b7280;
+}
+
+.post-meta .post-date,
+.post-meta .post-author,
+.post-meta .post-views {
+    display: flex;
+    align-items: center;
+}
+
+.post-meta .post-date::before {
+    content: "📅";
+    margin-right: 0.25rem;
+}
+
+.post-meta .post-author::before {
+    content: "👤";
+    margin-right: 0.25rem;
+}
+
+/* Archive/listing styles */
+.post-card .page-views {
+    font-size: 0.75rem;
+    color: #9ca3af;
+}
+
+.post-card .page-views-icon {
+    width: 0.875rem;
+    height: 0.875rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+    .post-meta {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .page-views {
+        font-size: 0.75rem;
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .page-views {
+        color: #9ca3af;
+    }
+    
+    .post-meta {
+        border-bottom-color: #374151;
+        color: #9ca3af;
+    }
+}

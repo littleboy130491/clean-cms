@@ -16,10 +16,11 @@ use Afatmustafa\SeoSuite\Models\Traits\InteractsWithSeoSuite;
 use App\Enums\ContentStatus;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use App\Models\Comment;
+use App\Traits\HasPageViews;
 
 class Post extends Model
 {
-    use HasFactory, HasTranslations, SoftDeletes, InteractsWithSeoSuite;
+    use HasFactory, HasTranslations, SoftDeletes, InteractsWithSeoSuite, HasPageViews;
 
 
     /**
@@ -52,7 +53,8 @@ class Post extends Model
         'menu_order' => 'integer',
         'featured' => 'boolean',
         'status' => ContentStatus::class,
-        'published_at' => 'datetime'
+        'published_at' => 'datetime',
+        'custom_fields' => 'array'
     ];
 
 
@@ -115,4 +117,5 @@ class Post extends Model
     {
         return $this->morphMany(Comment::class, 'commentable');
     }
+
 }

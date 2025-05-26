@@ -276,6 +276,11 @@ class ContentController extends Controller
 
         $content = $this->getPublishedContentBySlugOrFail($modelClass, $lang, $content_slug, true);
 
+        // Increment page views for models that use the HasPageViews trait
+        if (in_array(\App\Traits\HasPageViews::class, class_uses_recursive($content))) {
+            $content->incrementPageViews();
+        }
+
         // Determine the template using our single content template hierarchy
         $viewName = $this->resolveSingleTemplate($content, $content_type_key, $content_slug);
 

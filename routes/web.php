@@ -6,23 +6,29 @@ use App\Http\Controllers\ContentController;
 use App\Http\Controllers\PreviewEmailController;
 use Filament\Http\Middleware\Authenticate;
 
-
+// Routes for previewing emails and components
 Route::middleware([
     'web',
     'doNotCacheResponse',
     Authenticate::class, // Filament's auth middleware
 ])->prefix('preview')->group(function () {
+    // List all available email templates
     Route::get('/email', [PreviewEmailController::class, 'emailInfo'])
         ->name('preview.email');
+    // Preview a specific email template by slug
     Route::get('/email/{slug}', [PreviewEmailController::class, 'emailTemplate'])
         ->name('preview.email');
+    // Preview a dynamic component
     Route::get('/component', function () {
         return view('test');
     });
+    // Preview a submission form
     Route::get('/submission-form', function () {
         return view('submission-form-test');
     });
 });
+
+// Redirect root to default language
 Route::get('/', function () {
     $defaultLang = Config::get('cms.default_language', 'en');
     return redirect()->to($defaultLang);
