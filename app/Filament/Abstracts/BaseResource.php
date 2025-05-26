@@ -145,10 +145,8 @@ abstract class BaseResource extends Resource
                 ->schema([
                     KeyValue::make('custom_fields')
                         ->nullable(),
-
                 ])
                 ->columns(1),
-
         ];
     }
 

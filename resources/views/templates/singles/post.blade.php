@@ -17,8 +17,8 @@
                             by {{ $content->author->name }}
                         </span>
                     @endif
-
-                    <x-ui.page-views :count="$content->page_views" format="long" class="post-views" />
+                    @dd($content->custom_fields)
+                    <x-ui.page-views :count="$content->custom_fields['page_views']" format="long" class="post-views" />
                 </div>
             </header>
 
