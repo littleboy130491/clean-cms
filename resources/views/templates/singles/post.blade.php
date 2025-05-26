@@ -44,6 +44,7 @@
             <div class="post-content">
                 {!! $content->content !!}
             </div>
+            <x-ui.behold-ig-feed />
 
             {{-- Like button section --}}
             <div class="post-actions">
