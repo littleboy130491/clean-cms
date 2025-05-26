@@ -88,6 +88,7 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->unsavedChangesAlerts()
             ->sidebarCollapsibleOnDesktop()
+            ->databaseNotifications()
             ->navigationGroups([
                 NavigationGroup::make()
                     ->label('Contents')

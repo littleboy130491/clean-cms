@@ -10,7 +10,7 @@
 }
 
 .fi-sidebar-nav {
-    @apply bg-white shadow-sm;
+    /* @apply bg-white shadow-sm; */
 }
 
 .seo-tabs .fi-tabs {

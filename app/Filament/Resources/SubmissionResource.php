@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Exports\SubmissionExporter;
 use App\Filament\Resources\SubmissionResource\Pages;
 use App\Models\Submission;
 use Filament\Forms;
@@ -18,17 +19,25 @@ class SubmissionResource extends Resource
 
     public static function form(Form $form): Form
     {
-        return $form
-            ->schema([
-                Forms\Components\TextInput::make('fields.name')
-                    ->required(),
-                Forms\Components\TextInput::make('fields.phone')
-                    ->required(),
-                Forms\Components\TextInput::make('fields.email')
-                    ->required(),
-                Forms\Components\Textarea::make('fields.message')
-                    ->required(),
-            ]);
+        // Get existing JSON keys (from the model if editing, or a default structure)
+        $record = $form->getModelInstance();
+        $fields = $record?->fields ?? [
+            'name' => '',
+            'phone' => '',
+            'email' => '',
+            'message' => '',
+        ];
+
+        $components = [];
+        foreach ($fields as $key => $value) {
+            if ($key === 'message') {
+                $components[] = Forms\Components\Textarea::make("fields.$key")->required();
+            } else {
+                $components[] = Forms\Components\TextInput::make("fields.$key")->required();
+            }
+        }
+
+        return $form->schema($components);
     }
 
     public static function table(Table $table): Table
@@ -50,12 +59,18 @@ class SubmissionResource extends Resource
             ->filters([
                 //
             ])
+            ->headerActions([
+                Tables\Actions\ExportAction::make()
+                    ->exporter(SubmissionExporter::class)
+            ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\ExportBulkAction::make()
+                        ->exporter(SubmissionExporter::class)
                 ]),
             ])
             ->defaultSort('created_at', 'desc');
