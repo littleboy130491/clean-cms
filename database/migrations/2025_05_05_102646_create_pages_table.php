@@ -22,7 +22,7 @@ return new class extends Migration {
             $table->string('template', 255)->nullable();
             $table->integer('menu_order')->default(0);
             $table->bigInteger('parent_id')->nullable()->index()->unsigned();
-            $table->enum('status', ['draft', 'published'])->default('draft');
+            $table->enum('status', ['draft', 'published', 'scheduled'])->default('draft');
             $table->timestamp('published_at')->nullable();
             $table->foreignId('author_id')->constrained('users', 'id');
             $table->foreign('parent_id')->references('id')->on('pages');
