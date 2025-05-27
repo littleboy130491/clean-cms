@@ -73,5 +73,15 @@ return [
     'commentable_resources' => [
         App\Models\Post::class => App\Filament\Resources\PostResource::class,
         App\Models\Page::class => App\Filament\Resources\PageResource::class,
-    ]
+    ],
+
+    'debug_mode' => [
+        'enabled' => env('CMS_DEBUG_MODE_ENABLED', true),
+        'environments' => ['local', 'development'],
+        'max_variable_depth' => 20,
+        'max_array_items' => 50,
+        'include_queries' => true,
+        'include_cache_info' => true,
+        'redacted_keys' => ['password', 'token', 'secret', 'key', 'api_key'],
+    ],
 ];

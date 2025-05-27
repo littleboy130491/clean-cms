@@ -18,6 +18,7 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
         $middleware->web(append: [
             \Spatie\ResponseCache\Middlewares\CacheResponse::class,
+            \App\Http\Middleware\DebugMode::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

@@ -432,3 +432,63 @@ Here's an example demonstrating how to display the provided `complete` block dat
 
 This example checks for the existence of each data field before attempting to display it, ensuring robustness. The `description` field uses `{!! !!}` to render HTML content safely.
 
+
+## 10. Advanced Debug Mode
+
+This project includes an advanced debug mode that injects detailed HTML comments into the frontend output, providing comprehensive debugging information. This mode is designed to be active only in development environments, ensuring no impact on production performance or security.
+
+### Information Provided:
+
+When enabled, the debug mode injects comments containing:
+
+*   **Request Details**: Request ID, Timestamp, and current application Environment.
+*   **Route Information**: Details about the matched route, including its name, URI, HTTP methods, associated controller, and middleware.
+*   **View Information**: The names of the Blade templates rendered and a dump of their associated variables. Sensitive data is redacted, and large data structures are summarized for readability.
+*   **Database Queries**: A list of all executed database queries, their bindings, execution time, and connection (if enabled).
+*   **Cache Information**: Details on cache hits and misses, including the cache key (if enabled).
+*   **Component Information**: Data passed to dynamically loaded components.
+*   **Performance Metrics**: Memory usage and total execution time for the request.
+
+### Enabling Debug Mode:
+
+To activate the advanced debug mode, follow these steps:
+
+1.  **Update `.env` file**:
+    Set the `CMS_DEBUG_MODE_ENABLED` environment variable to `true`.
+    ```dotenv
+    CMS_DEBUG_MODE_ENABLED=true
+    ```
+    Ensure your `APP_ENV` is set to `local` or `development` (or any environment specified in `config/cms.php` under `debug_mode.environments`).
+    ```dotenv
+    APP_ENV=local
+    ```
+
+2.  **Clear Configuration Cache (if necessary)**:
+    If you've previously cached your configuration, run the following Artisan command to ensure the new settings are loaded:
+    ```bash
+    php artisan config:clear
+    ```
+
+### Configuration:
+
+The debug mode's behavior can be configured in the `config/cms.php` file under the `debug_mode` array:
+
+```php
+// config/cms.php
+'debug_mode' => [
+    'enabled' => env('CMS_DEBUG_MODE_ENABLED', false), // Master switch for debug mode
+    'environments' => ['local', 'development'], // Environments where debug mode is active
+    'max_variable_depth' => 3, // Max depth for variable dumping to prevent excessive output
+    'max_array_items' => 50, // Max number of items to display for dumped arrays
+    'include_queries' => true, // Whether to include database query logs
+    'include_cache_info' => true, // Whether to include cache hit/miss information
+    'redacted_keys' => ['password', 'token', 'secret', 'key', 'api_key'], // Keys whose values will be redacted
+],
+```
+
+You can modify these settings to control the verbosity and scope of the debug information.
+
+### Usage:
+
+Once enabled, simply view the source code of any HTML page in your browser (e.g., by right-clicking and selecting "View Page Source" or using your browser's developer tools) to see the injected HTML comments. These comments will provide a detailed breakdown of the request and rendering process.
+
