@@ -3,7 +3,6 @@
     <main>
         test
         <h1>{{ $content->title ?? 'Default Page' }}</h1>
-
         {{-- Content goes here --}}
 
     </main>

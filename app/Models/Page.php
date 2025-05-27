@@ -107,7 +107,7 @@ class Page extends Model
      */
     public function getBlocksAttribute(): array
     {
-        return collect($this->data)->map(function (array $block) {
+        return collect($this->section)->map(function (array $block) {
             // if this block has an "media" key, fetch its URL
             if (isset($block['data']['media_id'])) {
                 $media = Media::find($block['data']['media_id']);
