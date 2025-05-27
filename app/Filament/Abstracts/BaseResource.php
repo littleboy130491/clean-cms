@@ -62,6 +62,7 @@ abstract class BaseResource extends Resource
                             return [
                                 ...static::formTitleSlugFields($locale),
                                 ...static::formContentFields($locale),
+                                ...static::formSectionField($locale),
                             ];
                         })
                         ->columnSpan([
@@ -133,6 +134,12 @@ abstract class BaseResource extends Resource
     }
 
     protected static function formContentFields(string $locale): array
+    {
+
+        return [];
+    }
+
+    protected static function formSectionField(string $locale): array
     {
 
         return [];

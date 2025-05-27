@@ -30,6 +30,7 @@ class Page extends Model
         'menu_order',
         'parent_id',
         'published_at',
+        'section',
         'slug',
         'status',
         'template',
@@ -46,7 +47,9 @@ class Page extends Model
         'menu_order' => 'integer',
         'parent_id' => 'integer',
         'status' => ContentStatus::class,
-        'published_at' => 'datetime'
+        'published_at' => 'datetime',
+        'section' => 'array',
+        'custom_fields' => 'array',
     ];
 
 
@@ -58,6 +61,7 @@ class Page extends Model
     public $translatable = [
         'content',
         'excerpt',
+        'section',
         'slug',
         'title'
     ];
@@ -92,5 +96,25 @@ class Page extends Model
         // Use the base class name for the ::class constant
         // Add foreign key argument if specified in YAML
         return $this->belongsTo(Page::class, 'parent_id');
+    }
+
+    protected $appends = ['blocks'];
+
+    /**
+     * Return the raw data blocks, but with image URLs injected.
+     *
+     * @return array
+     */
+    public function getBlocksAttribute(): array
+    {
+        return collect($this->data)->map(function (array $block) {
+            // if this block has an "media" key, fetch its URL
+            if (isset($block['data']['media_id'])) {
+                $media = Media::find($block['data']['media_id']);
+                $block['data']['media_url'] = $media?->url;
+            }
+
+            return $block;
+        })->all();
     }
 }

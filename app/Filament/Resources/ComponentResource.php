@@ -4,7 +4,6 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\ComponentResource\Pages;
 use App\Models\Component;
-use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -12,8 +11,6 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Forms\Components\Builder as FormsBuilder;
-use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Awcodes\Curator\Components\Forms\CuratorPicker;
@@ -49,9 +46,9 @@ class ComponentResource extends Resource
                                     ->label('CTA label'),
                                 TextInput::make('cta-url')
                                     ->label('CTA URL'),
-                                CuratorPicker::make('image_id')
-                                    ->label('Image')
-                                    ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/svg+xml']),
+                                CuratorPicker::make('media_id')
+                                    ->label('Media')
+                                    ->helperText('Accepted file types: image or document'),
                             ])
                             ->columns(2),
                         FormsBuilder\Block::make('simple')
@@ -60,6 +57,15 @@ class ComponentResource extends Resource
                                 RichEditor::make('description'),
                             ])
                             ->columns(1),
+                        FormsBuilder\Block::make('video')
+                            ->schema([
+                                TextInput::make('heading'),
+                                TextInput::make('group'),
+                                RichEditor::make('description')
+                                    ->columnSpan('full'),
+                                TextInput::make('video_url'),
+                            ])
+                            ->columns(2),
                     ])
             ])
             ->columns(1);

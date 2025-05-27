@@ -42,10 +42,10 @@ class Component extends Model
     public function getBlocksAttribute(): array
     {
         return collect($this->data)->map(function (array $block) {
-            // if this block has an "image" key, fetch its URL
-            if (isset($block['data']['image_id'])) {
-                $media = Media::find($block['data']['image_id']);
-                $block['data']['image_url'] = $media?->url;
+            // if this block has an "media" key, fetch its URL
+            if (isset($block['data']['media_id'])) {
+                $media = Media::find($block['data']['media_id']);
+                $block['data']['media_url'] = $media?->url;
             }
 
             return $block;
