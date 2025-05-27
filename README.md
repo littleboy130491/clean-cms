@@ -666,3 +666,30 @@ This Livewire component handles form submissions with real-time validation, user
 4. Include `<livewire:submission-form />` in your Blade views.
 
 The component consists of `app/Livewire/SubmissionForm.php` and `resources/views/livewire/submission-form.blade.php`. Validation rules are defined using `#[Validate]` attributes. Customization of styling, rules, fields, and messages is supported. Security features include CSRF protection, input sanitization, IP tracking, and reCAPTCHA. Performance is optimized with debounced real-time validation and efficient updates.
+
+## 17. Scheduled Content Publishing
+
+This project includes a scheduled task to automatically publish content that has a `published_at` date in the future. This ensures that content goes live at the intended time without manual intervention.
+
+**Implementation Details:**
+
+The scheduling is configured in the `routes/console.php` file, which defines console commands and their schedules.
+
+-   **Artisan Command:** The `cms:publish-scheduled` Artisan command is responsible for checking for and publishing content. The logic for this command is located in [`app/Console/Commands/PublishScheduledContent.php`](app/Console/Commands/PublishScheduledContent.php). This command iterates through configured content models, identifies records with a `status` of `Scheduled` and a `published_at` date in the past or present, and updates their `status` to `Published`.
+-   **Scheduler Configuration:** The command is scheduled to run every thirty minutes and prevents overlapping executions.
+
+**`routes/console.php` snippet:**
+
+```php
+Schedule::command('cms:publish-scheduled')
+    ->everyThirtyMinutes()
+    ->withoutOverlapping();
+```
+
+To ensure the Laravel scheduler runs, you must add the following Cron entry to your server:
+
+```bash
+* * * * * cd /path-to-your-project && php artisan schedule:run >> /dev/null 2>&1
+```
+
+Replace `/path-to-your-project` with the actual path to your application's root directory. This Cron job will call the Laravel command scheduler every minute, which in turn evaluates and runs your defined scheduled tasks, including `cms:publish-scheduled`.

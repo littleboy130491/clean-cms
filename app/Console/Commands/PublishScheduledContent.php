@@ -46,7 +46,7 @@ class PublishScheduledContent extends Command
                     Schema::hasColumn($tableName, 'status') &&
                     Schema::hasColumn($tableName, 'published_at')
                 ) {
-                    $modelClass::where('status', ContentStatus::Draft)
+                    $modelClass::where('status', ContentStatus::Scheduled)
                         ->where('published_at', '<=', now())
                         ->update(['status' => ContentStatus::Published]);
 
