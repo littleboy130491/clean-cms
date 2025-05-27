@@ -386,3 +386,49 @@ To use the `ComponentLoader`, simply include it in your Blade file with the `nam
     ```
     *   In the CMS, create a Component entry with the `name` field set to `slider`.
 
+## 9. Using the Section Field in the Page Model
+
+The `Page` model includes a `section` field, which is cast to an array and can store flexible content blocks. This allows for building dynamic page layouts where different sections of content can be defined and rendered.
+
+The `Page` model also has a `blocks` accessor (`getBlocksAttribute()`) that processes the raw `section` data. This accessor is responsible for injecting additional data, such as `media_url` for image blocks, by looking up related media IDs.
+
+**Structure of `$content->blocks`:**
+
+The `blocks` attribute on a `Page` model (`$content->blocks` in a Blade view) is an array of content blocks. Each block typically has a `type` and `data` key. The `data` key contains the specific fields for that block type.
+
+**Blade Example for Displaying Section Data:**
+
+To display the content from the `section` field in a Blade template, you can iterate over the `$content->blocks` array. You can use conditional statements (e.g., `@if ($block['type'] === 'your_block_type')`) to render different layouts based on the `type` of each block.
+
+Here's an example demonstrating how to display the provided `complete` block data:
+
+```blade
+{{-- resources/views/templates/default.blade.php (or any page template) --}}
+@if ($content->blocks)
+    @foreach ($content->blocks as $block)
+        @if ($block['type'] === 'complete')
+            <section class="complete-block">
+                @if (isset($block['data']['heading']))
+                    <h2>{{ $block['data']['heading'] }}</h2>
+                @endif
+                @if (isset($block['data']['group']))
+                    <p>Group: {{ $block['data']['group'] }}</p>
+                @endif
+                @if (isset($block['data']['description']))
+                    <div>{!! $block['data']['description'] !!}</div>
+                @endif
+                @if (isset($block['data']['media_url']))
+                    <img src="{{ $block['data']['media_url'] }}" alt="{{ $block['data']['heading'] ?? 'Image' }}">
+                @endif
+                @if (isset($block['data']['cta-label']) && isset($block['data']['cta-url']))
+                    <a href="{{ $block['data']['cta-url'] }}" class="btn">{{ $block['data']['cta-label'] }}</a>
+                @endif
+            </section>
+        @endif
+        {{-- Add more @elseif blocks for other section types as needed --}}
+    @endforeach
+@endif
+```
+
+This example checks for the existence of each data field before attempting to display it, ensuring robustness. The `description` field uses `{!! !!}` to render HTML content safely.
+
