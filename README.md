@@ -492,3 +492,177 @@ You can modify these settings to control the verbosity and scope of the debug in
 
 Once enabled, simply view the source code of any HTML page in your browser (e.g., by right-clicking and selecting "View Page Source" or using your browser's developer tools) to see the injected HTML comments. These comments will provide a detailed breakdown of the request and rendering process.
 
+## 11. Email Notification System for Form Submissions
+
+This system provides automatic email notifications to admins for Laravel Livewire form submissions. It features professional formatting using Markdown mail templates, queue support for better performance, and reply-to functionality. Notification emails include submitter information, message details, technical information (IP, user agent, submission ID), and a direct link to the admin panel.
+
+**Configuration:**
+- Set `MAIL_ADMIN_EMAIL` in your `.env` file.
+- Ensure proper mail configuration (e.g., `MAIL_MAILER`, `MAIL_FROM_ADDRESS`, `MAILGUN_DOMAIN`, `MAILGUN_SECRET`) in `.env`.
+
+**Technical Implementation:**
+- `app/Mail/FormSubmissionNotification.php`: Mailable class for email composition, implements `ShouldQueue`.
+- `resources/views/emails/admin/form-submission.blade.php`: Markdown email template.
+- `app/Livewire/SubmissionForm.php`: Sends email after successful submission.
+
+**Usage:**
+The system works automatically: user submits form -> data saved -> email queued -> admin receives notification. Admins can reply directly to the submitter or view full details in the admin panel.
+
+**Testing:**
+- Test email delivery using `php artisan tinker` (`Mail::raw(...)`).
+- Test form submission by visiting `/preview/submission-form`, filling it out, and checking admin email.
+- Ensure `php artisan queue:work` is running if using queues.
+
+**Troubleshooting:**
+- Check `.env` mail configuration and `MAIL_ADMIN_EMAIL`.
+- Verify email template path and variable passing.
+- Ensure `APP_URL` is set correctly for admin panel links.
+
+**Security & Performance:**
+- **Security:** Email validation, CAPTCHA protection, data sanitization, and background processing via queues.
+- **Performance:** Queued processing prevents blocking form submission, lightweight templates, and immediate form response.
+
+## 12. Livewire Page Likes Feature
+
+This feature enables users to like/unlike posts with real-time updates and cookie-based tracking to prevent multiple likes from the same user. It is built with Laravel Livewire and uses Tailwind CSS for styling.
+
+**Features:**
+- Livewire-powered reactive components.
+- Cookie-based tracking (`liked_content_{post_id}` cookie, 1-year expiry).
+- Toggle functionality for liking/unliking.
+- Real-time updates without page refresh.
+- No custom CSS required (uses Tailwind classes).
+- Built-in loading states and accessibility features.
+
+**Implementation:**
+- **Livewire Component:** `app/Livewire/LikeButton.php`:1 handles state, cookies, database updates, and real-time UI.
+- **Model Trait:** `app/Traits/HasPageLikes.php`:1 provides methods (`incrementPageLikes`, `decrementPageLikes`, `setPageLikes`, `resetPageLikes`) and query scopes (`orderByPageLikes`, `mostLiked`, `withMinLikes`).
+- **Database:** Requires a migration to initialize `page_likes` field (e.g., `php artisan migrate`).
+
+**Usage:**
+Embed the `<livewire:like-button>` component in Blade templates:
+```blade
+<livewire:like-button :content="$post" :lang="$lang" :content-type="$contentType" />
+```
+Supports `size` ('sm', 'md', 'lg'), `variant` ('default', 'minimal', 'outline'), and `showCount` properties.
+
+**Extending to Other Models:**
+Add the `HasPageLikes` trait to your model and use the component in templates.
+
+**Performance & Security:**
+- **Performance:** Leverages Livewire's optimized DOM updates, automatic CSRF, and built-in loading states. Each like/unlike is one database update.
+- **Security:** Automatic CSRF protection, Laravel cookie encryption, and trait validation. Rate limiting can be added for abuse prevention.
+
+**Troubleshooting:**
+- Verify Livewire installation, trait usage, browser console for errors, and component registration.
+- Check browser cookie settings, domain, and expiry for cookie issues.
+- Ensure Tailwind CSS is configured correctly for styling issues.
+
+## 13. Page Likes Feature (Non-Livewire)
+
+This feature allows logged-out users to like posts using cookie-based tracking and AJAX for real-time updates.
+
+**Features:**
+- Cookie-based tracking (`liked_content_{post_id}` cookie, 1-year expiry).
+- Toggle functionality for liking/unliking.
+- Real-time updates via AJAX.
+- Responsive design, accessibility, and visual feedback (heart animation).
+
+**Implementation:**
+- **Model Trait:** `HasPageViews` trait (now includes likes functionality) provides methods (`incrementPageLikes`, `decrementPageLikes`, `setPageLikes`, `resetPageLikes`) and query scopes (`orderByPageLikes`, `mostLiked`, `withMinLikes`).
+- **Controller:** `ContentController`'s `toggleLike()` method handles validation, cookie management, database updates, and returns JSON responses.
+- **Route:** `POST /{content_type_key}/{content_slug}/like` (`cms.content.like`).
+- **Blade Component:** `<x-ui.like-button>` for interactive buttons.
+- **Styling:** `resources/css/like-button.css`.
+- **JavaScript:** Built-in JS handles clicks, loading states, UI updates, error handling, and CSRF tokens.
+- **Database:** Requires a migration to initialize `page_likes` field (e.g., `php artisan migrate`).
+
+**Security & Performance:**
+- **Security:** CSRF token validation, Laravel cookie encryption. Rate limiting can be added to the route.
+- **Performance:** Single database update per like/unlike, minimal cookie impact, lightweight JSON responses. Caching and queue-based processing are options for high-traffic sites.
+
+**Troubleshooting:**
+- Check CSRF token, JavaScript errors, route registration, and trait usage.
+- Verify browser cookie settings, domain, and expiry.
+- Ensure CSS is loaded and classes are applied correctly.
+
+## 14. Page Views Tracking
+
+This feature automatically counts and displays page views for posts, storing the count in the `custom_fields` JSON column (`page_views` key).
+
+**Features:**
+- Automatic view incrementation on post view.
+- Stores view count in `custom_fields` JSON column.
+- Reusable Blade component (`<x-ui.page-views>`) for display.
+- Query scopes (`orderByPageViews`, `mostViewed`, `withMinViews`) for filtering and ordering.
+- Extensible to other models using the `HasPageViews` trait.
+
+**Implementation:**
+- **Model Trait:** `HasPageViews` trait (e.g., in `Post` model) provides view functionality and a `page_views` accessor.
+- **Controller:** `ContentController::singleContent()` automatically increments views for models using the `HasPageViews` trait.
+- **Blade Component:** `<x-ui.page-views :count="$post->page_views" />` with format options ('long', 'short', 'number') and icon visibility.
+- **Styling:** `resources/css/page-views.css`.
+- **Database:** Requires a migration to initialize `page_views` field (e.g., `php artisan migrate`).
+
+**Extending to Other Models:**
+Add the `HasPageViews` trait to your model; the controller automatically detects and increments views.
+
+**Performance:**
+- Single database update per view increment.
+- JSON column is indexed for performance.
+- Caching and queue-based processing are options for high-traffic sites.
+
+**Advanced Usage:**
+- Customize view tracking logic (e.g., only for authenticated users, unique sessions).
+- Integrate with analytics services.
+
+**Troubleshooting:**
+- Verify trait usage, `custom_fields` casting, and controller's `incrementPageViews()` call.
+- Check component inclusion, CSS loading, and accessor functionality for display issues.
+- Consider database indexes, caching, or queues for performance issues.
+
+## 15. Google reCAPTCHA Setup Guide
+
+This guide details setting up Google reCAPTCHA v2 ("I'm not a robot" Checkbox) for Laravel Livewire forms.
+
+**Setup Steps:**
+1.  **Create reCAPTCHA Site:** Go to [Google reCAPTCHA Admin Console](https://www.google.com/recaptcha/admin), create a new site (v2 "I'm not a robot" Checkbox), and add your domains (production and development like `localhost`, `127.0.0.1`).
+2.  **Get Keys:** Obtain your Site Key (frontend) and Secret Key (backend).
+3.  **Configure Laravel:** Add `NOCAPTCHA_SITEKEY` and `NOCAPTCHA_SECRET` to your `.env` file. Test keys are available for development but **must not** be used in production.
+4.  **Domain Configuration:** Ensure all relevant domains are registered in the reCAPTCHA admin console.
+5.  **Verify Setup:** Clear application cache (`php artisan config:clear`, `php artisan cache:clear`), then test your form to ensure the widget loads, challenges can be completed, and form submission works.
+
+**Troubleshooting:**
+- **CAPTCHA Not Loading:** Check browser console, site key, and domain registration.
+- **Validation Fails:** Verify secret key, domain match, and avoid test keys in production.
+- **HTTPS Issues:** reCAPTCHA may require HTTPS in production.
+
+**Security Best Practices:**
+- Never expose secret keys.
+- Use environment variables for keys.
+- Regularly rotate keys.
+- Monitor reCAPTCHA analytics.
+- Keep domain list minimal.
+
+**Additional Configuration:**
+- Customize widget appearance (`theme`, `size`, `callback`) in Blade views.
+- Force specific language using `hl` parameter in script URL.
+
+## 16. Laravel Livewire Submission Form Component
+
+This Livewire component handles form submissions with real-time validation, user-friendly errors, and success notifications. It supports responsive design with Tailwind CSS, flexible JSON data storage in the `submissions` table (including IP/user agent), and single submission protection.
+
+**Key Features:**
+- Real-time validation and error messages.
+- Animated success messages and loading states.
+- Google reCAPTCHA v2 integration (conditional display).
+- Multi-language support.
+- Graceful fallback for disabled JavaScript.
+
+**Installation & Usage:**
+1. Install Livewire and reCAPTCHA packages.
+2. Configure reCAPTCHA keys in `.env`.
+3. Run migrations to create the `submissions` table.
+4. Include `<livewire:submission-form />` in your Blade views.
+
+The component consists of `app/Livewire/SubmissionForm.php` and `resources/views/livewire/submission-form.blade.php`. Validation rules are defined using `#[Validate]` attributes. Customization of styling, rules, fields, and messages is supported. Security features include CSRF protection, input sanitization, IP tracking, and reCAPTCHA. Performance is optimized with debounced real-time validation and efficient updates.
