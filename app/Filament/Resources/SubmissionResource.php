@@ -91,4 +91,9 @@ class SubmissionResource extends Resource
             // 'edit' => Pages\EditSubmission::route('/{record}/edit'),
         ];
     }
+
+    public static function canCreate(): bool
+    {
+        return false;
+    }
 }
