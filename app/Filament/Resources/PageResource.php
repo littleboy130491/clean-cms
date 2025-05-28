@@ -5,17 +5,12 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\PageResource\Pages;
 use App\Models\Page;
 use App\Filament\Abstracts\BaseContentResource;
-use Filament\Forms\Components\Builder;
-use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Builder as FormsBuilder;
-use Awcodes\Curator\Components\Forms\CuratorPicker;
-use Filament\Forms\Components\RichEditor;
+use App\Traits\HasContentBlocks;
 
 class PageResource extends BaseContentResource
 {
+    use HasContentBlocks;
     protected static ?string $model = Page::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
@@ -27,39 +22,7 @@ class PageResource extends BaseContentResource
         return [
             FormsBuilder::make('section')
                 ->collapsed(false)
-                ->blocks([
-                    FormsBuilder\Block::make('complete')
-                        ->schema([
-                            TextInput::make('heading'),
-                            TextInput::make('group'),
-                            RichEditor::make('description')
-                                ->columnSpan('full'),
-                            TextInput::make('cta-label')
-                                ->label('CTA label'),
-                            TextInput::make('cta-url')
-                                ->label('CTA URL'),
-                            CuratorPicker::make('media_id')
-                                ->label('Media')
-                                ->helperText('Accepted file types: image or document'),
-                        ])
-                        ->columns(2),
-                    FormsBuilder\Block::make('simple')
-                        ->schema([
-                            TextInput::make('heading'),
-                            RichEditor::make('description'),
-                        ])
-                        ->columns(1),
-                    FormsBuilder\Block::make('video')
-                        ->schema([
-                            TextInput::make('heading'),
-                            TextInput::make('group'),
-                            RichEditor::make('description')
-                                ->columnSpan('full'),
-                            TextInput::make('video_url'),
-                        ])
-                        ->columns(2),
-                ]),
-
+                ->blocks(static::getContentBlocks())
         ];
     }
     protected static function formRelationshipsFields(): array

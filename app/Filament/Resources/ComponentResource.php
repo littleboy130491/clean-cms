@@ -15,9 +15,11 @@ use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Awcodes\Curator\Components\Forms\CuratorPicker;
 use Filament\Forms\Components\RichEditor;
+use App\Traits\HasContentBlocks;
 
 class ComponentResource extends Resource
 {
+    use HasContentBlocks;
     protected static ?string $model = Component::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
@@ -35,38 +37,7 @@ class ComponentResource extends Resource
                     ->helperText('Notes for this component. For informational purposes only.'),
                 FormsBuilder::make('data')
                     ->collapsed(false)
-                    ->blocks([
-                        FormsBuilder\Block::make('complete')
-                            ->schema([
-                                TextInput::make('heading'),
-                                TextInput::make('group'),
-                                RichEditor::make('description')
-                                    ->columnSpan('full'),
-                                TextInput::make('cta-label')
-                                    ->label('CTA label'),
-                                TextInput::make('cta-url')
-                                    ->label('CTA URL'),
-                                CuratorPicker::make('media_id')
-                                    ->label('Media')
-                                    ->helperText('Accepted file types: image or document'),
-                            ])
-                            ->columns(2),
-                        FormsBuilder\Block::make('simple')
-                            ->schema([
-                                TextInput::make('heading'),
-                                RichEditor::make('description'),
-                            ])
-                            ->columns(1),
-                        FormsBuilder\Block::make('video')
-                            ->schema([
-                                TextInput::make('heading'),
-                                TextInput::make('group'),
-                                RichEditor::make('description')
-                                    ->columnSpan('full'),
-                                TextInput::make('video_url'),
-                            ])
-                            ->columns(2),
-                    ])
+                    ->blocks(static::getContentBlocks())
             ])
             ->columns(1);
     }
