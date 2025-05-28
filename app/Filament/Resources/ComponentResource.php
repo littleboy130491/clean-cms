@@ -13,8 +13,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Forms\Components\Builder as FormsBuilder;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
-use Awcodes\Curator\Components\Forms\CuratorPicker;
-use Filament\Forms\Components\RichEditor;
+use SolutionForest\FilamentTranslateField\Forms\Component\Translate;
 use App\Traits\HasContentBlocks;
 
 class ComponentResource extends Resource
@@ -35,9 +34,15 @@ class ComponentResource extends Resource
                     ->helperText('Only lowercase letters, numbers, and hyphens are allowed. No spaces or special characters.'),
                 Textarea::make('notes')
                     ->helperText('Notes for this component. For informational purposes only.'),
-                FormsBuilder::make('data')
-                    ->collapsed(false)
-                    ->blocks(static::getContentBlocks())
+                Translate::make()
+                    ->columnSpanFull()
+                    ->schema(function (string $locale): array {
+                        return [
+                            FormsBuilder::make('data')
+                                ->collapsed(false)
+                                ->blocks(static::getContentBlocks())
+                        ];
+                    }),
             ])
             ->columns(1);
     }

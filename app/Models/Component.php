@@ -5,9 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Awcodes\Curator\Models\Media;
+use Spatie\Translatable\HasTranslations;
 class Component extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, HasTranslations;
 
 
 
@@ -30,6 +31,15 @@ class Component extends Model
      */
     protected $casts = [
         'data' => 'array',
+    ];
+
+    /**
+     * The attributes that are translatable.
+     *
+     * @var array<int, string>
+     */
+    public $translatable = [
+        'data',
     ];
 
     protected $appends = ['blocks'];

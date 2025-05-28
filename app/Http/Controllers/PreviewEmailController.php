@@ -13,12 +13,12 @@ class PreviewEmailController extends Controller
         'preview-comment-reply-notification' => 'Comment Reply Notification',
     ];
 
-    public function emailInfo()
+    public function emailInfo($lang)
     {
         $availablePreviews = [];
         foreach ($this->previewRoutes as $slug => $description) {
             $availablePreviews[] = [
-                'url' => route('preview.email', ['slug' => $slug]),
+                'url' => route('preview.email.detail', compact('lang', 'slug')),
                 'description' => $description,
                 'slug' => $slug
             ];
@@ -36,7 +36,7 @@ class PreviewEmailController extends Controller
             ->header('Content-Type', 'text/html');
     }
 
-    public function emailTemplate($slug)
+    public function emailTemplate($lang, $slug)
     {
 
         switch ($slug) {
