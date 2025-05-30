@@ -692,4 +692,49 @@ To ensure the Laravel scheduler runs, you must add the following Cron entry to y
 * * * * * cd /path-to-your-project && php artisan schedule:run >> /dev/null 2>&1
 ```
 
-Replace `/path-to-your-project` with the actual path to your application's root directory. This Cron job will call the Laravel command scheduler every minute, which in turn evaluates and runs your defined scheduled tasks, including `cms:publish-scheduled`.
+## 18. Instagram Feed Integration
+
+This project integrates Instagram feeds using the `Yizack/instagram-feed` package.
+
+### Setup
+
+1.  **Install the package:**
+    ```bash
+    composer require yizack/instagram-feed
+    ```
+
+2.  **Get your Instagram Access Token:**
+    Follow the instructions on the `Yizack/instagram-feed` GitHub page to obtain a Meta Developer App and generate an access token:
+    [https://github.com/Yizack/instagram-feed?tab=readme-ov-file#meta-developer-app](https://github.com/Yizack/instagram-feed?tab=readme-ov-file#meta-developer-app)
+
+3.  **Store the Access Token:**
+    Add your Instagram Access Token to your `.env` file:
+    ```dotenv
+    INSTAGRAM_ACCESS_TOKEN="YOUR_ACCESS_TOKEN_HERE"
+    ```
+
+### Component Location
+
+The Instagram Feed component consists of:
+
+*   **Class:** [`app/View/Components/InstagramFeed.php`](app/View/Components/InstagramFeed.php)
+*   **Blade View:** [`resources/views/components/instagram-feed.blade.php`](resources/views/components/instagram-feed.blade.php)
+
+### How to Render
+
+You can render the Instagram Feed component in your Blade templates using the following syntax:
+
+```blade
+<x-instagram-feed type="all" :columns="4" />
+```
+
+*   `type`: (Optional) Filter feeds by type. Accepted values are `all`, `image`, `video`, or `reel`. Defaults to `all`.
+*   `columns`: (Optional) Number of columns for the grid display (1-6). Defaults to `3`.
+
+### Token Refresh
+
+To ensure your Instagram Access Token remains valid, an Artisan command is available to refresh it. This command is automatically triggered monthly.
+
+*   **Artisan Command:** `php artisan instagram:refresh-token`
+*   **Automation:** This command is scheduled to run monthly to automatically update the token.
+

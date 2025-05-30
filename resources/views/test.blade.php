@@ -1,1 +1,1 @@
-<x-component-loader name="test" />
+<x-instagram-feed :type="request('type', 'all')" />

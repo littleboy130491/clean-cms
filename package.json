@@ -2,9 +2,9 @@
     "private": true,
     "type": "module",
     "scripts": {
-        "build": "vite build",
-        "dev": "vite"
-    },
+    "build": "vite build",
+    "dev": "concurrently \"vite\" \"npx tailwindcss@3 --input ./resources/css/filament/admin/theme.css --output ./public/css/filament/admin/theme.css --config ./resources/css/filament/admin/tailwind.config.js --minify --watch\""
+},
     "devDependencies": {
         "@tailwindcss/forms": "^0.5.10",
         "@tailwindcss/postcss": "^4.1.5",

@@ -3,6 +3,8 @@
     <main>
         test
         <h1>{{ $content->title ?? 'Default Page' }}</h1>
+        <x-instagram-feed :type="request('type', 'all')" />
+
         {{-- Content goes here --}}
 
     </main>

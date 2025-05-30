@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "af2d5aa98476b3bc3cf0321fe0a5c972",
+    "content-hash": "d5a809889bd7e2704434f4536f0240c9",
     "packages": [
         {
             "name": "afatmustafa/seo-suite",
@@ -9945,6 +9945,51 @@
                 "source": "https://github.com/webmozarts/assert/tree/1.11.0"
             },
             "time": "2022-06-03T18:03:27+00:00"
+        },
+        {
+            "name": "yizack/instagram-feed",
+            "version": "v2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Yizack/instagram-feed.git",
+                "reference": "fe853c42ddf32a7e0a8135c40aabdefb4bd7111a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Yizack/instagram-feed/zipball/fe853c42ddf32a7e0a8135c40aabdefb4bd7111a",
+                "reference": "fe853c42ddf32a7e0a8135c40aabdefb4bd7111a",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Yizack\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Yizack Rangel",
+                    "email": "yizackr@gmail.com"
+                }
+            ],
+            "description": "PHP library to retrieve an Instagram profile feed, embed the feed of your authorized Instagram accounts on your website. The library uses the Instagram Basic Display API with auto-refreshing access token support",
+            "keywords": [
+                "feed",
+                "instagram",
+                "meta"
+            ],
+            "support": {
+                "issues": "https://github.com/Yizack/instagram-feed/issues",
+                "source": "https://github.com/Yizack/instagram-feed/tree/v2.0.0"
+            },
+            "time": "2025-01-30T22:01:55+00:00"
         }
     ],
     "packages-dev": [

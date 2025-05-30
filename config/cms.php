@@ -84,4 +84,9 @@ return [
         'include_cache_info' => true,
         'redacted_keys' => ['password', 'token', 'secret', 'key', 'api_key'],
     ],
+
+    'instagram' => [
+        'access_token' => env('INSTAGRAM_ACCESS_TOKEN'),
+    ],
+
 ];
