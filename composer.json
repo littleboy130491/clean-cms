@@ -26,6 +26,7 @@
         "laravel/tinker": "^2.10.1",
         "livewire/livewire": "^3.6",
         "outerweb/filament-translatable-fields": "^2.1",
+        "shuvroroy/filament-spatie-laravel-backup": "^2.2",
         "solution-forest/filament-translate-field": "^1.4",
         "spatie/laravel-responsecache": "^7.7",
         "spatie/laravel-sitemap": "^7.3",

@@ -14,7 +14,7 @@ use Filament\Forms\Components\Builder as FormsBuilder;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use SolutionForest\FilamentTranslateField\Forms\Component\Translate;
-use App\Traits\HasContentBlocks;
+use App\Filament\Traits\HasContentBlocks;
 
 class ComponentResource extends Resource
 {

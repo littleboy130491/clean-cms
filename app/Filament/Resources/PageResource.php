@@ -6,7 +6,7 @@ use App\Filament\Resources\PageResource\Pages;
 use App\Models\Page;
 use App\Filament\Abstracts\BaseContentResource;
 use Filament\Forms\Components\Builder as FormsBuilder;
-use App\Traits\HasContentBlocks;
+use App\Filament\Traits\HasContentBlocks;
 
 class PageResource extends BaseContentResource
 {
